@@ -1,0 +1,29 @@
+﻿@model List<Biglietto>
+
+<h2>Dettagli Biglietti Venduti</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Numero Biglietto</th>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Sala</th>
+            <th>Tipo Biglietto</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var biglietto in Model)
+        {
+            <tr>
+                <td>@biglietto.NumeroBiglietto</td>
+                <td>@biglietto.Nome</td>
+                <td>@biglietto.Cognome</td>
+                <td>@biglietto.Sala</td>
+                <td>@(biglietto.IsRidotto ? "Ridotto" : "Intero")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-primary">Torna alla Vendita Biglietti</a>

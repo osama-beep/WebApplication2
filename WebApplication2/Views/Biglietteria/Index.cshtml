@@ -1,0 +1,82 @@
+﻿@model List<Sala>
+
+<h2>Vendita Biglietti</h2>
+<a asp-action="DettagliBiglietti" class="btn btn-info mb-3">Visualizza Dettagli Biglietti</a>
+
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+
+
+<form asp-action="VendiBiglietto" method="post">
+    <div class="form-group">
+        <label for="Nome">Nome:</label>
+        <input type="text" id="Nome" name="Nome" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="Cognome">Cognome:</label>
+        <input type="text" id="Cognome" name="Cognome" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="Sala">Sala:</label>
+        <select id="Sala" name="Sala" class="form-control" required>
+            @foreach (var sala in Model)
+            {
+                <option value="@sala.Nome">@sala.Nome</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label>
+            <input type="checkbox" id="IsRidotto" name="IsRidotto" value="true"> Biglietto Ridotto
+        </label>
+        <input type="hidden" name="IsRidotto" value="false" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Vendi Biglietto</button>
+</form>
+
+<h3>Stato delle Sale</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Sala</th>
+            <th>Biglietti Interi</th>
+            <th>Biglietti Ridotti</th>
+            <th>Totale Biglietti</th>
+            <th>Posti Disponibili</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sala in Model)
+        {
+            <tr>
+                <td>@sala.Nome</td>
+                <td>@sala.BigliettiInteriVenduti</td>
+                <td>@sala.BigliettiRidottiVenduti</td>
+                <td>@sala.BigliettiVenduti</td>
+                <td>@sala.PostiDisponibili</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            var isRidotto = document.getElementById('IsRidotto').checked;
+            console.log('Form submitted, IsRidotto:', isRidotto);
+        });
+
+        console.log('Totale biglietti: @ViewBag.TotaleBiglietti');
+        console.log('Biglietti ridotti: @ViewBag.BigliettiRidotti');
+    </script>
+}
